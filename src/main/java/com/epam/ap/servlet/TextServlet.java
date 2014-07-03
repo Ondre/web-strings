@@ -1,5 +1,9 @@
 package com.epam.ap.servlet;
 
+import com.epam.ap.action.Action;
+import com.epam.ap.action.ActionFactory;
+import com.epam.ap.action.ParseAction;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -10,10 +14,10 @@ public class TextServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
 
-        String text = request.getParameter("text");
-        request.setAttribute("text", text.toUpperCase());
+        Action action = ActionFactory.getAction("parse");
+        String result = action.execute(request);
 
-        request.getRequestDispatcher("WEB-INF/result.jsp").forward(request, response);
+        request.getRequestDispatcher(result).forward(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
